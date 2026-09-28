@@ -1,0 +1,122 @@
+[
+  {
+    "id": "b01",
+    "title": "1984",
+    "author": "George Orwell",
+    "category": "Dystopie",
+    "description": "Dans un régime totalitaire, Winston tente de garder sa liberté de penser.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780451524935-M.jpg",
+    "pages": 328,
+    "year": 1949
+  },
+  {
+    "id": "b02",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "category": "Classique",
+    "description": "Elizabeth Bennet et M. Darcy face aux préjugés de classe et d'orgueil.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780141439518-M.jpg",
+    "pages": 432,
+    "year": 1813
+  },
+  {
+    "id": "b03",
+    "title": "Le Petit Prince",
+    "author": "Antoine de Saint-Exupéry",
+    "category": "Conte",
+    "description": "Un aviateur rencontre un petit prince venu d'une autre planète.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780156012195-M.jpg",
+    "pages": 96,
+    "year": 1943
+  },
+  {
+    "id": "b04",
+    "title": "Frankenstein",
+    "author": "Mary Shelley",
+    "category": "Science-fiction",
+    "description": "Un savant donne vie à une créature et en subit les conséquences.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780486282114-M.jpg",
+    "pages": 166,
+    "year": 1818
+  },
+  {
+    "id": "b05",
+    "title": "Dune",
+    "author": "Frank Herbert",
+    "category": "Science-fiction",
+    "description": "Paul Atréides, sur la planète désertique Arrakis, entre épice et pouvoir.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780441172719-M.jpg",
+    "pages": 688,
+    "year": 1965
+  },
+  {
+    "id": "b06",
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "category": "Fantasy",
+    "description": "Bilbon Sacquet part avec des nains reprendre un trésor gardé par un dragon.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780547928227-M.jpg",
+    "pages": 300,
+    "year": 1937
+  },
+  {
+    "id": "b07",
+    "title": "Les Misérables",
+    "author": "Victor Hugo",
+    "category": "Classique",
+    "description": "Jean Valjean, ancien forçat, cherche la rédemption dans la France du XIXe siècle.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780451419439-M.jpg",
+    "pages": 1463,
+    "year": 1862
+  },
+  {
+    "id": "b08",
+    "title": "L'Étranger",
+    "author": "Albert Camus",
+    "category": "Classique",
+    "description": "Meursault, indifférent au monde, est jugé pour un meurtre sur une plage d'Alger.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780679720201-M.jpg",
+    "pages": 123,
+    "year": 1942
+  },
+  {
+    "id": "b09",
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "category": "Dystopie",
+    "description": "Une société où le bonheur est fabriqué et la liberté sacrifiée.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780060850524-M.jpg",
+    "pages": 311,
+    "year": 1932
+  },
+  {
+    "id": "b10",
+    "title": "Sapiens",
+    "author": "Yuval Noah Harari",
+    "category": "Essai",
+    "description": "Une brève histoire de l'humanité, des chasseurs-cueilleurs à aujourd'hui.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780062316097-M.jpg",
+    "pages": 464,
+    "year": 2011
+  },
+  {
+    "id": "b11",
+    "title": "Animal Farm",
+    "author": "George Orwell",
+    "category": "Dystopie",
+    "description": "Des animaux chassent leur fermier, puis reproduisent la tyrannie.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780451526342-M.jpg",
+    "pages": 112,
+    "year": 1945
+  },
+  {
+    "id": "b12",
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "category": "Conte",
+    "description": "Santiago, jeune berger, part en quête de sa légende personnelle.",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780062315007-M.jpg",
+    "pages": 208,
+    "year": 1988
+  }
+]
