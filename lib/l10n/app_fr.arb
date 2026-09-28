@@ -1,11 +1,9 @@
 {
   "@@locale": "fr",
   "appTitle": "ReadTrack",
-
   "navLibrary": "Bibliothèque",
   "navMyList": "Ma liste",
   "navSettings": "Réglages",
-
   "libraryTitle": "Ma bibliothèque",
   "librarySearchHint": "Rechercher un livre ou un auteur",
   "libraryEmpty": "Aucun livre ne correspond à votre recherche.",
@@ -13,12 +11,10 @@
   "libraryFilterToRead": "À lire",
   "libraryFilterRead": "Lus",
   "libraryFilterFavorite": "Favoris",
-
   "bookDetailAddToList": "Ajouter à ma liste",
   "bookDetailMarkAsRead": "Marquer comme lu",
   "bookDetailMarkAsUnread": "Marquer comme non lu",
   "bookDetailRemoveFromList": "Retirer de ma liste",
-
   "addBookTitle": "Ajouter un livre",
   "addBookFieldTitle": "Titre",
   "addBookFieldAuthor": "Auteur",
@@ -26,15 +22,22 @@
   "addBookValidationRequired": "Ce champ est obligatoire",
   "addBookSubmit": "Enregistrer le livre",
   "addBookSuccess": "Livre ajouté avec succès",
-
   "myListTitle": "Ma liste",
   "myListEmpty": "Vous n'avez encore ajouté aucun livre.",
-
   "settingsTitle": "Réglages",
   "settingsTheme": "Thème",
   "settingsThemeLight": "Clair",
   "settingsThemeDark": "Sombre",
   "settingsLanguage": "Langue",
   "settingsLanguageFrench": "Français",
-  "settingsLanguageEnglish": "Anglais"
+  "settingsLanguageEnglish": "Anglais",
+  "errorGeneric": "Une erreur est survenue lors du chargement des livres.",
+  "retry": "Réessayer",
+  "clearSearch": "Effacer la recherche",
+  "bookDetailDescription": "Description",
+  "bookDetailNotFound": "Ce livre est introuvable.",
+  "bookDetailPages": "{count} pages",
+  "favoriteAdd": "Ajouter aux favoris",
+  "favoriteRemove": "Retirer des favoris",
+  "bookCardSemantics": "{title}, de {author}"
 }

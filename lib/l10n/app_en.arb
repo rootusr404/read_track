@@ -1,12 +1,12 @@
 {
   "@@locale": "en",
   "appTitle": "ReadTrack",
-  "@appTitle": {"description": "Application title shown in the app bar"},
-
+  "@appTitle": {
+    "description": "Application title shown in the app bar"
+  },
   "navLibrary": "Library",
   "navMyList": "My List",
   "navSettings": "Settings",
-
   "libraryTitle": "My Library",
   "librarySearchHint": "Search a book or author",
   "libraryEmpty": "No books match your search.",
@@ -14,12 +14,10 @@
   "libraryFilterToRead": "To read",
   "libraryFilterRead": "Read",
   "libraryFilterFavorite": "Favorites",
-
   "bookDetailAddToList": "Add to my list",
   "bookDetailMarkAsRead": "Mark as read",
   "bookDetailMarkAsUnread": "Mark as unread",
   "bookDetailRemoveFromList": "Remove from my list",
-
   "addBookTitle": "Add a book",
   "addBookFieldTitle": "Title",
   "addBookFieldAuthor": "Author",
@@ -27,15 +25,39 @@
   "addBookValidationRequired": "This field is required",
   "addBookSubmit": "Save book",
   "addBookSuccess": "Book added successfully",
-
   "myListTitle": "My List",
   "myListEmpty": "You haven't added any book yet.",
-
   "settingsTitle": "Settings",
   "settingsTheme": "Theme",
   "settingsThemeLight": "Light",
   "settingsThemeDark": "Dark",
   "settingsLanguage": "Language",
   "settingsLanguageFrench": "French",
-  "settingsLanguageEnglish": "English"
+  "settingsLanguageEnglish": "English",
+  "errorGeneric": "Something went wrong while loading the books.",
+  "retry": "Retry",
+  "clearSearch": "Clear search",
+  "bookDetailDescription": "Description",
+  "bookDetailNotFound": "This book could not be found.",
+  "bookDetailPages": "{count} pages",
+  "@bookDetailPages": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "favoriteAdd": "Add to favorites",
+  "favoriteRemove": "Remove from favorites",
+  "bookCardSemantics": "{title}, by {author}",
+  "@bookCardSemantics": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "author": {
+        "type": "String"
+      }
+    }
+  }
 }

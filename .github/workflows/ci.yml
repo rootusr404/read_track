@@ -13,54 +13,46 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          channel: stable
           cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Generate code (Hive adapters, etc.)
-        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Generate localizations
+        run: flutter gen-l10n
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
-      - name: Analyze project source
+      - name: Analyze
         run: flutter analyze --fatal-infos
 
-      - name: Run unit & widget tests with coverage
+      - name: Unit & widget tests
         run: flutter test --coverage
 
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/lcov.info
 
   integration-tests:
-    name: Integration tests (headless, without emulator)
+    name: Integration tests
     runs-on: ubuntu-latest
     needs: analyze-and-test
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          channel: stable
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - run: flutter pub get
+      - run: flutter gen-l10n
 
-      # NOTE (Sprint 9) : à valider empiriquement. Objectif = exécuter les tests
-      # d'integration_test/ via `flutter test integration_test/` (moteur Flutter Test,
-      # sans device réel), pour éviter la complexité d'un émulateur Android headless
-      # en CI (risque identifié dans le brief, section stack technique).
-      - name: Run integration tests (flutter test runner)
+      # Sprint 9 : stratégie d'exécution à valider (flutter test runner, sans émulateur).
+      - name: Integration tests
         run: flutter test integration_test/
