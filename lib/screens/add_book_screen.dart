@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/generated/app_localizations.dart';
+import '../widgets/add_book_form.dart';
 
-/// Placeholder Sprint 3 : implémenté dans un sprint suivant.
 class AddBookScreen extends StatelessWidget {
   const AddBookScreen({super.key});
 
@@ -11,7 +11,7 @@ class AddBookScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.addBookTitle)),
-      body: const SizedBox.shrink(),
+      body: const SingleChildScrollView(child: AddBookForm()),
     );
   }
 }

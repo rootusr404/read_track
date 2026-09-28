@@ -39,5 +39,10 @@
   "bookDetailPages": "{count} pages",
   "favoriteAdd": "Ajouter aux favoris",
   "favoriteRemove": "Retirer des favoris",
-  "bookCardSemantics": "{title}, de {author}"
+  "bookCardSemantics": "{title}, de {author}",
+  "addBookFieldCategoryHint": "ex : Fantasy, Essai, Classique",
+  "myListRemoveConfirmTitle": "Retirer ce livre ?",
+  "myListRemoveConfirmBody": "Il sera retiré de votre liste, mais reste dans la bibliothèque.",
+  "cancel": "Annuler",
+  "confirm": "Confirmer"
 }
