@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// Vue d'erreur réutilisable avec bouton "Réessayer".
+///
+/// `liveRegion: true` fait annoncer le message dès son apparition,
+/// utile car l'erreur survient de façon asynchrone (pas de focus naturel).
 class ErrorView extends StatelessWidget {
   const ErrorView({
     super.key,
@@ -23,7 +26,10 @@ class ErrorView extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 48),
             const SizedBox(height: 12),
-            Text(message, textAlign: TextAlign.center),
+            Semantics(
+              liveRegion: true,
+              child: Text(message, textAlign: TextAlign.center),
+            ),
             const SizedBox(height: 16),
             FilledButton.icon(
               onPressed: onRetry,

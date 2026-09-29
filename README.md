@@ -47,8 +47,8 @@ lib/
 | ≥ 2 tests d'intégration | `integration_test/*.dart` | TODO (Sprint 9) |
 | Images optimisées / lazy-loadées | `cached_network_image` dans `widgets/book_card.dart` | TODO (Sprint 3) |
 | Pas de rebuilds inutiles | `const` partout + `flutter_hooks` dans `add_book_screen.dart` | TODO (Sprint 4) |
-| Accessibilité (semantic labels) | `Semantics`/`tooltip` sur tous les écrans | TODO (Sprint 6) |
-| Internationalisation FR/EN | `lib/l10n/app_fr.arb`, `lib/l10n/app_en.arb`, `settings_screen.dart` | ✅ Fichiers ARB créés (Sprint 0), intégration écrans à venir (Sprint 5) |
+| Accessibilité (semantic labels) | `Semantics`/`tooltip` sur tous les écrans, audit détaillé dans `ACCESSIBILITY.md` | ✅ Fait (Sprint 6) |
+| Internationalisation FR/EN | `lib/l10n/app_fr.arb`, `lib/l10n/app_en.arb`, `settings_screen.dart` | ✅ Fait (Sprint 5) |
 | CI/CD (lint + tests) | `.github/workflows/ci.yml` | ✅ Fait (Sprint 0) |
 | `flutter analyze` propre | `analysis_options.yaml` | ✅ Fait (Sprint 0) |
 | README professionnel | ce fichier | 🚧 En cours |
@@ -71,4 +71,4 @@ flutter test integration_test/ # tests d'intégration
 ```
 
 ## Captures d'écran
-*(TODO — Sprint 6/10)*
+*(TODO — à ajouter par toi : lance `flutter run`, capture les 5 écrans en clair et en sombre, place-les dans `docs/screenshots/`, puis remplace ce paragraphe par les images, ex. `![Bibliothèque](docs/screenshots/library.png)`. Je n'ai pas d'émulateur dans cet environnement pour les générer moi-même.)*

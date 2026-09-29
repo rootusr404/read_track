@@ -46,5 +46,7 @@
   "cancel": "Annuler",
   "confirm": "Confirmer",
   "settingsSection": "Préférences",
-  "settingsThemeSubtitle": "Basculer entre apparence claire et sombre"
+  "settingsThemeSubtitle": "Basculer entre apparence claire et sombre",
+  "libraryResultsCount": "{count, plural, =0{Aucun résultat} =1{1 livre trouvé} other{{count} livres trouvés}}",
+  "myListRemoveAction": "Retirer de ma liste"
 }

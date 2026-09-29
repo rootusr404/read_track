@@ -10,6 +10,7 @@ import '../utils/responsive.dart';
 import '../widgets/book_card.dart';
 import '../widgets/category_filter_bar.dart';
 import '../widgets/error_view.dart';
+import '../widgets/results_announcer.dart';
 import '../widgets/search_bar_widget.dart';
 import '../widgets/status_filter_bar.dart';
 
@@ -42,6 +43,10 @@ class LibraryScreen extends ConsumerWidget {
             const SizedBox(height: 4),
             const CategoryFilterBar(),
             const SizedBox(height: 4),
+            // Annonce silencieuse (liveRegion) du nombre de résultats à
+            // chaque changement de recherche/filtre, pour les lecteurs
+            // d'écran — invisible pour les utilisateurs voyants.
+            ResultsAnnouncer(text: l10n.libraryResultsCount(books.valueOrNull?.length ?? 0)),
             Expanded(
               child: books.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
@@ -51,7 +56,12 @@ class LibraryScreen extends ConsumerWidget {
                   onRetry: () => ref.invalidate(booksProvider),
                 ),
                 data: (list) => list.isEmpty
-                    ? Center(child: Text(l10n.libraryEmpty))
+                    ? Center(
+                        child: Semantics(
+                          liveRegion: true,
+                          child: Text(l10n.libraryEmpty),
+                        ),
+                      )
                     : ListView.builder(
                         itemCount: list.length,
                         itemBuilder: (context, index) {
