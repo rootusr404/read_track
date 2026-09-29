@@ -41,12 +41,12 @@ lib/
 
 | Exigence de la consigne | Fichier(s) concerné(s) | Statut |
 |---|---|---|
-| Au moins 5 écrans | `lib/screens/*.dart` | TODO (Sprints 3-5) |
-| ≥ 10 tests unitaires | `test/models/`, `test/data/`, `test/providers/` | TODO (Sprint 7) |
-| ≥ 5 tests de widgets | `test/widgets/`, `test/screens/` | TODO (Sprint 8) |
-| ≥ 2 tests d'intégration | `integration_test/*.dart` | TODO (Sprint 9) |
-| Images optimisées / lazy-loadées | `cached_network_image` dans `widgets/book_card.dart` | TODO (Sprint 3) |
-| Pas de rebuilds inutiles | `const` partout + `flutter_hooks` dans `add_book_screen.dart` | TODO (Sprint 4) |
+| Au moins 5 écrans | `lib/screens/*.dart` | ✅ Fait (Sprints 3-5) |
+| ≥ 10 tests unitaires | `test/models/`, `test/data/`, `test/utils/` | ✅ 32 tests (Sprint 7) |
+| ≥ 5 tests de widgets | `test/widgets/`, `test/screens/` | ✅ 15 tests (Sprint 8) |
+| ≥ 2 tests d'intégration | `integration_test/*.dart` | ✅ Fait (Sprint 9) |
+| Images optimisées / lazy-loadées | `cached_network_image` dans `widgets/book_cover.dart` | ✅ Fait (Sprint 3) |
+| Pas de rebuilds inutiles | `const` partout + `flutter_hooks` dans `search_bar_widget.dart`/`add_book_form.dart` | ✅ Fait (Sprints 3-4) |
 | Accessibilité (semantic labels) | `Semantics`/`tooltip` sur tous les écrans, audit détaillé dans `ACCESSIBILITY.md` | ✅ Fait (Sprint 6) |
 | Internationalisation FR/EN | `lib/l10n/app_fr.arb`, `lib/l10n/app_en.arb`, `settings_screen.dart` | ✅ Fait (Sprint 5) |
 | CI/CD (lint + tests) | `.github/workflows/ci.yml` | ✅ Fait (Sprint 0) |
