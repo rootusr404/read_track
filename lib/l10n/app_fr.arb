@@ -44,5 +44,7 @@
   "myListRemoveConfirmTitle": "Retirer ce livre ?",
   "myListRemoveConfirmBody": "Il sera retiré de votre liste, mais reste dans la bibliothèque.",
   "cancel": "Annuler",
-  "confirm": "Confirmer"
+  "confirm": "Confirmer",
+  "settingsSection": "Préférences",
+  "settingsThemeSubtitle": "Basculer entre apparence claire et sombre"
 }

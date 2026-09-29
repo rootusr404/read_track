@@ -64,5 +64,7 @@
   "myListRemoveConfirmTitle": "Remove this book?",
   "myListRemoveConfirmBody": "It will be removed from your list, but stays in the library.",
   "cancel": "Cancel",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "settingsSection": "Preferences",
+  "settingsThemeSubtitle": "Switch between light and dark appearance"
 }
