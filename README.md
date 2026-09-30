@@ -1,74 +1,112 @@
 # ReadTrack 📚
 
-[![CI](https://github.com/<TON_USER>/read_track/actions/workflows/ci.yml/badge.svg)](https://github.com/<TON_USER>/read_track/actions/workflows/ci.yml)
+[![CI](https://github.com/<TON_USER>/read_track/actions/workflows/ci.yml/badge.svg)](https://github.com/rootusr404/read_track/actions/workflows/ci.yml)
+![Flutter](https://img.shields.io/badge/Flutter-3.24-02569B?logo=flutter)
+![Tests](https://img.shields.io/badge/tests-49%20passing-brightgreen)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
 
-Tracker de bibliothèque personnelle (livres à lire / lus / favoris) — projet Flutter production-ready (tests, performance, accessibilité, internationalisation).
-
-> ⚠️ Ce README est un squelette de Sprint 0. Les sections marquées `TODO` seront complétées au fil des sprints (captures d'écran au Sprint 6, détails des tests aux Sprints 7-9).
-
-## Sommaire
-- [Fonctionnalités](#fonctionnalités)
-- [Architecture](#architecture)
-- [Tableau exigence → fichier](#tableau-exigence--fichier)
-- [Setup](#setup)
-- [Tests](#tests)
-- [Captures d'écran](#captures-décran) *(TODO)*
+Application Flutter de suivi de bibliothèque personnelle, développée avec une attention particulière portée aux tests, à la performance, à l'accessibilité et à l'internationalisation. Le projet démontre une gestion d'état avec Riverpod, une persistance locale structurée avec Hive, une navigation déclarative avec GoRouter, et une couverture de tests complète sur les trois niveaux (unitaire, widget, intégration).
 
 ## Fonctionnalités
-- 5 écrans : Bibliothèque, Détail livre, Ajouter un livre, Ma liste, Réglages
-- Données mockées (JSON en asset) + persistance locale des favoris/lus via Hive
-- Thème clair/sombre, support FR/EN
-- Suite de tests complète (unitaires, widgets, intégration)
 
-## Architecture
-Architecture en couches par responsabilité (pas de dossier "flat") :
+- **Bibliothèque** : liste des livres avec recherche en temps réel (titre/auteur), filtres combinables par catégorie et par statut (à lire / lus / favoris)
+- **Détail d'un livre** : description, métadonnées (année, pages, catégorie), ajout aux favoris
+- **Ajout de livre** : formulaire avec validation par champ (`flutter_hooks`, pas de `State` manuel)
+- **Ma liste** : les livres suivis par l'utilisateur, marquage lu/non lu, suppression par balayage avec confirmation
+- **Réglages** : thème clair/sombre et langue FR/EN, l'un et l'autre persistés localement
+- **Mode hors-ligne natif** : le catalogue est chargé depuis un asset JSON embarqué, aucune dépendance réseau
+- **Accessibilité** : labels sémantiques sur tous les éléments interactifs, annonces `liveRegion` pour le contenu qui change de façon asynchrone (voir `ACCESSIBILITY.md`)
+
+## Architecture — séparation par responsabilité
 
 ```
 lib/
 ├── main.dart
-├── l10n/            # Fichiers .arb (FR/EN) + gen-l10n
-├── theme/           # Thème clair/sombre
-├── models/          # Entités de données (Book)
-├── data/            # Repository<T>, BookRepository, MyListStorage (Hive)
-├── providers/       # Riverpod : catalogue, filtre/recherche, ma liste, locale
+├── l10n/            # Fichiers .arb (FR/EN) + classes générées par gen-l10n
+├── theme/           # Thème clair/sombre (Material 3)
+├── models/          # Entités de données : Book, MyListEntry
+├── data/            # Repository<T>, BookRepository, MyListStorage, SettingsStorage (Hive)
+├── providers/       # Riverpod : catalogue, recherche/filtres, ma liste, locale, thème
 ├── router/          # GoRouter, 5 routes nommées
 ├── screens/         # Les 5 écrans de l'application
-├── widgets/         # Widgets réutilisables (BookCard, SearchBarWidget, ...)
-└── utils/           # Utilitaires (responsive, etc.)
+├── widgets/         # Composants réutilisables (BookCard, SearchBarWidget, ...)
+└── utils/           # Fonctions pures (filtre de recherche, responsive)
 ```
 
-## Tableau exigence → fichier
+- **`models/`** : entités immuables comparées par valeur (`Equatable`), sans aucune dépendance à Flutter ni à une source de données.
+- **`data/`** : implémentation concrète des accès aux données — lecture d'un asset JSON, persistance Hive. `BookRepository` implémente une interface générique `Repository<T>`, ce qui permettrait de le remplacer par une source distante sans toucher au reste de l'app.
+- **`providers/`** : composition de l'état via Riverpod. Les écrans ne lisent jamais directement `data/` ; ils dépendent uniquement des providers.
 
-| Exigence de la consigne | Fichier(s) concerné(s) | Statut |
-|---|---|---|
-| Au moins 5 écrans | `lib/screens/*.dart` | ✅ Fait (Sprints 3-5) |
-| ≥ 10 tests unitaires | `test/models/`, `test/data/`, `test/utils/` | ✅ 32 tests (Sprint 7) |
-| ≥ 5 tests de widgets | `test/widgets/`, `test/screens/` | ✅ 15 tests (Sprint 8) |
-| ≥ 2 tests d'intégration | `integration_test/*.dart` | ✅ Fait (Sprint 9) |
-| Images optimisées / lazy-loadées | `cached_network_image` dans `widgets/book_cover.dart` | ✅ Fait (Sprint 3) |
-| Pas de rebuilds inutiles | `const` partout + `flutter_hooks` dans `search_bar_widget.dart`/`add_book_form.dart` | ✅ Fait (Sprints 3-4) |
-| Accessibilité (semantic labels) | `Semantics`/`tooltip` sur tous les écrans, audit détaillé dans `ACCESSIBILITY.md` | ✅ Fait (Sprint 6) |
-| Internationalisation FR/EN | `lib/l10n/app_fr.arb`, `lib/l10n/app_en.arb`, `settings_screen.dart` | ✅ Fait (Sprint 5) |
-| CI/CD (lint + tests) | `.github/workflows/ci.yml` | ✅ Fait (Sprint 0) |
-| `flutter analyze` propre | `analysis_options.yaml` | ✅ Fait (Sprint 0) |
-| README professionnel | ce fichier | 🚧 En cours |
-| CHANGELOG (≥ 3 versions) | `CHANGELOG.md` | 🚧 En cours (1/4 versions) |
+## Gestion d'état et logique de recherche/filtrage
 
-## Setup
+`filteredBooksProvider` compose 5 sources indépendantes : le catalogue (`FutureProvider`), le texte de recherche, la catégorie sélectionnée, le statut sélectionné, et l'état de "Ma liste". Chacune est un provider à part, testable isolément — voir `test/utils/book_filter_test.dart`, qui teste la fonction de filtrage pure sans dépendre de Riverpod ni d'un `WidgetTester`.
+
+`BookRepository` garde un cache en mémoire après le premier chargement : les appels suivants ne relisent pas l'asset JSON. Ce comportement est vérifié explicitement par un test dédié (`test/data/book_repository_test.dart`), plutôt que supposé.
+
+## Persistance locale (Hive)
+
+Deux `Box<String>` distinctes, chacune sérialisée en JSON plutôt que via des adapters générés :
+- **`my_list`** : statut lu/favori de chaque livre suivi par l'utilisateur
+- **`settings`** : thème et langue choisis
+
+Ce choix (JSON manuel plutôt que `hive_generator`) évite la classe de bugs liée aux adapters générés sur les champs hérités, et garde la sérialisation explicite et testable sans dépendre du moteur Flutter.
+
+## Internationalisation
+
+Support complet FR (par défaut) / EN via `flutter_localizations` et `gen-l10n`. Toutes les chaînes affichées à l'utilisateur passent par `AppLocalizations`, y compris les pluriels (`libraryResultsCount`) et les chaînes paramétrées (`bookDetailPages`). Le changement de langue depuis les Réglages est immédiat, sans redémarrage.
+
+## Génération de code — obligatoire avant de lancer l'app
+
+Ce projet dépend de code généré (adapters et classes de traduction) qui n'est pas commité dans le dépôt :
 
 ```bash
 flutter pub get
-dart run build_runner build --delete-conflicting-outputs   # génère les adapters Hive
-flutter gen-l10n                                            # génère les classes de traduction
+dart run build_runner build --delete-conflicting-outputs   # rien à générer actuellement (pas d'adapter Hive), gardé pour évolutions futures
+flutter gen-l10n                                            # génère lib/l10n/generated/app_localizations.dart, requis pour compiler
+```
+
+Sans la dernière commande, la compilation échoue : tous les écrans importent les classes générées par `gen-l10n`.
+
+## Installation et lancement
+
+```bash
+git clone https://github.com/rootusr404/read_track.git
+cd read_track
+flutter pub get
+flutter gen-l10n
 flutter run
 ```
 
-## Tests
+## Lancer les tests
 
 ```bash
-flutter test --coverage        # tests unitaires + widgets
-flutter test integration_test/ # tests d'intégration
+flutter test                     # tests unitaires + widgets
+flutter test integration_test/   # tests d'intégration
 ```
 
+La suite compte 49 tests répartis sur 3 niveaux — détail complet dans `TEST_COVERAGE.md` :
+- **32 tests unitaires** (`test/models/`, `test/data/`, `test/utils/`) : modèles, filtre de recherche, `BookRepository` (chargement, cache, erreurs), `MyListStorage`, `SettingsStorage`
+- **15 tests de widgets** (`test/widgets/`, `test/screens/`) : `BookCard`, `LibraryScreen`, `SettingsScreen`, `MyListTile`
+- **2 tests d'intégration** (`integration_test/`) : parcours complet ajout→bibliothèque→ma liste ; recherche et filtre par favori à travers plusieurs écrans
+
+Les tests de repository utilisent un `FakeAssetBundle` (`test/support/fake_asset_bundle.dart`) pour servir un catalogue en mémoire, sans dépendre du vrai fichier d'assets ni d'un appel réseau.
+
+## Qualité de code
+
+```bash
+flutter analyze
+```
+
+Un workflow CI (`.github/workflows/ci.yml`) vérifie le formatage, exécute `flutter analyze --fatal-infos`, lance les tests unitaires/widgets avec couverture, puis les tests d'intégration, à chaque push et pull request sur `main`.
+
+## Documentation complémentaire
+
+- [`ACCESSIBILITY.md`](ACCESSIBILITY.md) — audit d'accessibilité détaillé des 5 écrans
+- [`TEST_COVERAGE.md`](TEST_COVERAGE.md) — détail des 49 tests
+- [`CHANGELOG.md`](CHANGELOG.md) — historique des versions
+
 ## Captures d'écran
-*(TODO — à ajouter par toi : lance `flutter run`, capture les 5 écrans en clair et en sombre, place-les dans `docs/screenshots/`, puis remplace ce paragraphe par les images, ex. `![Bibliothèque](docs/screenshots/library.png)`. Je n'ai pas d'émulateur dans cet environnement pour les générer moi-même.)*
+
+| Bibliothèque | Détail livre | Ajouter un livre | Ma liste | Réglages | Mode sombre |
+|---|---|---|---|---|---|
+| ![library](screenshots/library.png) | ![book_detail](screenshots/book_detail.png) | ![add_book](screenshots/add_book.png) | ![my_list](screenshots/my_list.png) | ![settings](screenshots/settings.png) | ![dark_mode](screenshots/dark_mode.png) |
