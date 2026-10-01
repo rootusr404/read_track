@@ -6,8 +6,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:read_track/app.dart';
+import 'package:read_track/data/book_repository.dart';
 import 'package:read_track/data/my_list_storage.dart';
 import 'package:read_track/data/settings_storage.dart';
+import 'package:read_track/providers/book_providers.dart';
 import 'package:read_track/providers/my_list_providers.dart';
 import 'package:read_track/providers/settings_providers.dart';
 
@@ -18,7 +20,15 @@ import 'package:read_track/providers/settings_providers.dart';
 /// N'appelle pas le vrai `main()` : `Hive.initFlutter()` dépend de
 /// `path_provider`, indisponible en mode "flutter test" sans device. On
 /// initialise donc Hive manuellement sur un répertoire temporaire, comme
-/// dans les tests de widgets (Sprints 7-8).
+/// dans les tests de widgets.
+///
+/// Le catalogue est chargé depuis le vrai `assets/data/books.json` (pas de
+/// `FakeAssetBundle` ici), mais avec une latence nulle : `pumpAndSettle()`
+/// ne sait attendre que des frames liées à une animation, pas un
+/// `Future.delayed` isolé comme la latence simulée de production — avec
+/// le délai par défaut (600 ms), le test vérifierait le résultat avant
+/// que le `FutureProvider` du catalogue n'ait fini de se recharger après
+/// l'ajout du livre.
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -47,6 +57,11 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          bookRepositoryProvider.overrideWithValue(
+            BookRepository(
+              latency: Duration.zero,
+            ), // vrai asset, sans latence simulée
+          ),
           myListStorageProvider.overrideWithValue(myListStorage),
           settingsStorageProvider.overrideWithValue(settingsStorage),
         ],
