@@ -35,11 +35,14 @@ void main() {
     await tempDir.delete(recursive: true);
   });
 
-  testWidgets('add a book, find it in the library, add it to my list',
-      (tester) async {
+  testWidgets('add a book, find it in the library, add it to my list', (
+    tester,
+  ) async {
     final myListStorage = await MyListStorage.open();
     final settingsStorage = await SettingsStorage.open();
-    await settingsStorage.saveLocale(const Locale('en')); // textes déterministes
+    await settingsStorage.saveLocale(
+      const Locale('en'),
+    ); // textes déterministes
 
     await tester.pumpWidget(
       ProviderScope(
@@ -57,7 +60,10 @@ void main() {
     await tester.pumpAndSettle();
 
     // 2. Remplir et valider le formulaire.
-    await tester.enterText(find.byType(TextFormField).at(0), 'Integration Test Book');
+    await tester.enterText(
+      find.byType(TextFormField).at(0),
+      'Integration Test Book',
+    );
     await tester.enterText(find.byType(TextFormField).at(1), 'Test Author');
     await tester.enterText(find.byType(TextFormField).at(2), 'Test Category');
     await tester.tap(find.text('Save book'));

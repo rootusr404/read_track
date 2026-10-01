@@ -27,9 +27,12 @@ import '../test/support/fake_asset_bundle.dart';
 /// horizontalement, le centre géométrique du texte seul peut ne pas
 /// correspondre exactement à sa position de rendu au moment du tap.
 Finder _statusChip(String label) => find.ancestor(
-      of: find.descendant(of: find.byType(StatusFilterBar), matching: find.text(label)),
-      matching: find.byType(ChoiceChip),
-    );
+  of: find.descendant(
+    of: find.byType(StatusFilterBar),
+    matching: find.text(label),
+  ),
+  matching: find.byType(ChoiceChip),
+);
 
 Future<void> _tapStatusChip(WidgetTester tester, String label) async {
   final chip = _statusChip(label);
@@ -47,7 +50,12 @@ void main() {
 
   late Directory tempDir;
   final sampleJson = jsonEncode([
-    {'id': 'b01', 'title': '1984', 'author': 'George Orwell', 'category': 'Dystopie'},
+    {
+      'id': 'b01',
+      'title': '1984',
+      'author': 'George Orwell',
+      'category': 'Dystopie',
+    },
     {'id': 'b02', 'title': 'Dune', 'author': 'Frank Herbert', 'category': 'SF'},
   ]);
 
@@ -62,57 +70,62 @@ void main() {
     await tempDir.delete(recursive: true);
   });
 
-  testWidgets('search filters the library, and favoriting updates the favorite filter',
-      (tester) async {
-    final myListStorage = await MyListStorage.open();
-    final settingsStorage = await SettingsStorage.open();
-    await settingsStorage.saveLocale(const Locale('en'));
+  testWidgets(
+    'search filters the library, and favoriting updates the favorite filter',
+    (tester) async {
+      final myListStorage = await MyListStorage.open();
+      final settingsStorage = await SettingsStorage.open();
+      await settingsStorage.saveLocale(const Locale('en'));
 
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          bookRepositoryProvider.overrideWithValue(
-            BookRepository(bundle: FakeAssetBundle(sampleJson), latency: Duration.zero),
-          ),
-          myListStorageProvider.overrideWithValue(myListStorage),
-          settingsStorageProvider.overrideWithValue(settingsStorage),
-        ],
-        child: const ReadTrackApp(),
-      ),
-    );
-    await tester.pumpAndSettle();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            bookRepositoryProvider.overrideWithValue(
+              BookRepository(
+                bundle: FakeAssetBundle(sampleJson),
+                latency: Duration.zero,
+              ),
+            ),
+            myListStorageProvider.overrideWithValue(myListStorage),
+            settingsStorageProvider.overrideWithValue(settingsStorage),
+          ],
+          child: const ReadTrackApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
 
-    // 1. Recherche : ne montre que le livre correspondant.
-    await tester.enterText(find.byType(TextField), 'dune');
-    await tester.pump();
-    expect(find.text('Dune'), findsOneWidget);
-    expect(find.text('1984'), findsNothing);
+      // 1. Recherche : ne montre que le livre correspondant.
+      await tester.enterText(find.byType(TextField), 'dune');
+      await tester.pump();
+      expect(find.text('Dune'), findsOneWidget);
+      expect(find.text('1984'), findsNothing);
 
-    // 2. On efface la recherche puis on filtre par "Favorites" : personne
-    // n'est favori pour l'instant, la liste doit être vide.
-    await tester.tap(find.byIcon(Icons.clear));
-    await tester.pump();
-    await _tapStatusChip(tester, 'Favorites');
-    await tester.pump();
-    expect(find.text('No books match your search.'), findsOneWidget);
+      // 2. On efface la recherche puis on filtre par "Favorites" : personne
+      // n'est favori pour l'instant, la liste doit être vide.
+      await tester.tap(find.byIcon(Icons.clear));
+      await tester.pump();
+      await _tapStatusChip(tester, 'Favorites');
+      await tester.pump();
+      expect(find.text('No books match your search.'), findsOneWidget);
 
-    // 3. Retour à "All", ouverture de la fiche de Dune.
-    await _tapStatusChip(tester, 'All');
-    await tester.pump();
-    await tester.tap(find.text('Dune'));
-    await tester.pumpAndSettle();
+      // 3. Retour à "All", ouverture de la fiche de Dune.
+      await _tapStatusChip(tester, 'All');
+      await tester.pump();
+      await tester.tap(find.text('Dune'));
+      await tester.pumpAndSettle();
 
-    // 4. Marquer comme favori depuis la fiche détail.
-    await tester.tap(find.byIcon(Icons.favorite_border));
-    await tester.pump();
-    expect(find.byIcon(Icons.favorite), findsOneWidget);
+      // 4. Marquer comme favori depuis la fiche détail.
+      await tester.tap(find.byIcon(Icons.favorite_border));
+      await tester.pump();
+      expect(find.byIcon(Icons.favorite), findsOneWidget);
 
-    // 5. Retour à la bibliothèque, filtre "Favorites" : Dune y figure.
-    await tester.pageBack();
-    await tester.pumpAndSettle();
-    await _tapStatusChip(tester, 'Favorites');
-    await tester.pump();
-    expect(find.text('Dune'), findsOneWidget);
-    expect(find.text('1984'), findsNothing);
-  });
+      // 5. Retour à la bibliothèque, filtre "Favorites" : Dune y figure.
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await _tapStatusChip(tester, 'Favorites');
+      await tester.pump();
+      expect(find.text('Dune'), findsOneWidget);
+      expect(find.text('1984'), findsNothing);
+    },
+  );
 }

@@ -10,7 +10,12 @@ import 'package:read_track/widgets/my_list_tile.dart';
 
 import '../support/in_memory_key_value_store.dart';
 
-const _book = Book(id: 'b01', title: '1984', author: 'George Orwell', category: 'Dystopie');
+const _book = Book(
+  id: 'b01',
+  title: '1984',
+  author: 'George Orwell',
+  category: 'Dystopie',
+);
 
 /// `Dismissible` exige que son parent le retire de l'arbre une fois
 /// l'animation de balayage terminée (sans quoi il relève une assertion).
@@ -57,7 +62,9 @@ void main() {
     return container;
   }
 
-  testWidgets('confirming the swipe-to-remove dialog removes the entry', (tester) async {
+  testWidgets('confirming the swipe-to-remove dialog removes the entry', (
+    tester,
+  ) async {
     final container = await pumpTile(tester);
 
     await tester.drag(find.byType(Dismissible), const Offset(-500, 0));
