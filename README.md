@@ -1,6 +1,6 @@
 # ReadTrack 📚
 
-[![CI](https://github.com/<TON_USER>/read_track/actions/workflows/ci.yml/badge.svg)](https://github.com/rootusr404/read_track/actions/workflows/ci.yml)
+[![CI](https://github.com/<TON_USER>/read_track/actions/workflows/ci.yml/badge.svg)](https://github.com/<TON_USER>/read_track/actions/workflows/ci.yml)
 ![Flutter](https://img.shields.io/badge/Flutter-3.24-02569B?logo=flutter)
 ![Tests](https://img.shields.io/badge/tests-49%20passing-brightgreen)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
@@ -70,7 +70,7 @@ Sans la dernière commande, la compilation échoue : tous les écrans importent 
 ## Installation et lancement
 
 ```bash
-git clone https://github.com/rootusr404/read_track.git
+git clone https://github.com/<TON_USER>/read_track.git
 cd read_track
 flutter pub get
 flutter gen-l10n
@@ -99,11 +99,21 @@ flutter analyze
 
 Un workflow CI (`.github/workflows/ci.yml`) vérifie le formatage, exécute `flutter analyze --fatal-infos`, lance les tests unitaires/widgets avec couverture, puis les tests d'intégration, à chaque push et pull request sur `main`.
 
+## Distribution
+
+Aucun APK/IPA n'est fourni en pièce jointe du dépôt : l'application n'a pas de backend ni de clé à provisionner, donc une build de démonstration n'apporte pas d'information au-delà du code source. Pour générer un APK de démonstration :
+
+```bash
+flutter build apk --release
+# sortie : build/app/outputs/flutter-apk/app-release.apk
+```
+
 ## Documentation complémentaire
 
 - [`ACCESSIBILITY.md`](ACCESSIBILITY.md) — audit d'accessibilité détaillé des 5 écrans
 - [`TEST_COVERAGE.md`](TEST_COVERAGE.md) — détail des 49 tests
 - [`CHANGELOG.md`](CHANGELOG.md) — historique des versions
+- [`SETUP.md`](SETUP.md) — mise en place du projet depuis zéro (bootstrap `flutter create`, premier push)
 
 ## Captures d'écran
 

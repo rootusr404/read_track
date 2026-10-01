@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:read_track/app.dart';
 import 'package:read_track/data/book_repository.dart';
@@ -16,6 +14,7 @@ import 'package:read_track/providers/settings_providers.dart';
 import 'package:read_track/widgets/status_filter_bar.dart';
 
 import '../test/support/fake_asset_bundle.dart';
+import 'support/hive_test_support.dart';
 
 /// Le chip "All" existe à la fois dans le filtre de statut et dans le
 /// filtre de catégorie (même libellé `libraryFilterAll`) : on doit donc
@@ -47,8 +46,8 @@ Future<void> _tapStatusChip(WidgetTester tester, String label) async {
 /// bibliothèque — traverse donc Bibliothèque -> Détail -> Bibliothèque.
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  setUpHiveTempDir('search_and_filter_test');
 
-  late Directory tempDir;
   final sampleJson = jsonEncode([
     {
       'id': 'b01',
@@ -58,17 +57,6 @@ void main() {
     },
     {'id': 'b02', 'title': 'Dune', 'author': 'Frank Herbert', 'category': 'SF'},
   ]);
-
-  setUp(() async {
-    tempDir = await Directory.systemTemp.createTemp('search_and_filter_test');
-    Hive.init(tempDir.path);
-  });
-
-  tearDown(() async {
-    await Hive.deleteBoxFromDisk(MyListStorage.boxName);
-    await Hive.deleteBoxFromDisk(SettingsStorage.boxName);
-    await tempDir.delete(recursive: true);
-  });
 
   testWidgets(
     'search filters the library, and favoriting updates the favorite filter',

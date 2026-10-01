@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:read_track/app.dart';
 import 'package:read_track/data/book_repository.dart';
@@ -12,6 +9,8 @@ import 'package:read_track/data/settings_storage.dart';
 import 'package:read_track/providers/book_providers.dart';
 import 'package:read_track/providers/my_list_providers.dart';
 import 'package:read_track/providers/settings_providers.dart';
+
+import 'support/hive_test_support.dart';
 
 /// Parcours complet : ajouter un livre au catalogue, le retrouver dans la
 /// bibliothèque, ouvrir sa fiche, l'ajouter à "Ma liste", puis vérifier
@@ -31,19 +30,7 @@ import 'package:read_track/providers/settings_providers.dart';
 /// l'ajout du livre.
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-
-  late Directory tempDir;
-
-  setUp(() async {
-    tempDir = await Directory.systemTemp.createTemp('add_and_track_book_test');
-    Hive.init(tempDir.path);
-  });
-
-  tearDown(() async {
-    await Hive.deleteBoxFromDisk(MyListStorage.boxName);
-    await Hive.deleteBoxFromDisk(SettingsStorage.boxName);
-    await tempDir.delete(recursive: true);
-  });
+  setUpHiveTempDir('add_and_track_book_test');
 
   testWidgets('add a book, find it in the library, add it to my list', (
     tester,
