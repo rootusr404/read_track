@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hive/hive.dart';
 import 'package:read_track/data/settings_storage.dart';
 import 'package:read_track/l10n/generated/app_localizations.dart';
 import 'package:read_track/providers/locale_provider.dart';
@@ -11,21 +8,11 @@ import 'package:read_track/providers/settings_providers.dart';
 import 'package:read_track/providers/theme_provider.dart';
 import 'package:read_track/screens/settings_screen.dart';
 
+import '../support/in_memory_key_value_store.dart';
+
 void main() {
-  late Directory tempDir;
-
-  setUp(() async {
-    tempDir = await Directory.systemTemp.createTemp('settings_screen_test');
-    Hive.init(tempDir.path);
-  });
-
-  tearDown(() async {
-    await Hive.deleteBoxFromDisk(SettingsStorage.boxName);
-    await tempDir.delete(recursive: true);
-  });
-
   Future<ProviderContainer> pumpSettings(WidgetTester tester) async {
-    final storage = SettingsStorage(await Hive.openBox<String>(SettingsStorage.boxName));
+    final storage = SettingsStorage(InMemoryKeyValueStore());
     late ProviderContainer container;
     await tester.pumpWidget(
       ProviderScope(
@@ -33,11 +20,11 @@ void main() {
         child: Builder(
           builder: (context) {
             container = ProviderScope.containerOf(context);
-            return MaterialApp(
-              locale: const Locale('en'),
+            return const MaterialApp(
+              locale: Locale('en'),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              home: const SettingsScreen(),
+              home: SettingsScreen(),
             );
           },
         ),

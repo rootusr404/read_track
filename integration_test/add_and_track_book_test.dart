@@ -37,8 +37,8 @@ void main() {
 
   testWidgets('add a book, find it in the library, add it to my list',
       (tester) async {
-    final myListStorage = MyListStorage(await Hive.openBox<String>(MyListStorage.boxName));
-    final settingsStorage = SettingsStorage(await Hive.openBox<String>(SettingsStorage.boxName));
+    final myListStorage = await MyListStorage.open();
+    final settingsStorage = await SettingsStorage.open();
     await settingsStorage.saveLocale(const Locale('en')); // textes déterministes
 
     await tester.pumpWidget(

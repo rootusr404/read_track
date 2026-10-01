@@ -46,7 +46,9 @@ class LibraryScreen extends ConsumerWidget {
             // Annonce silencieuse (liveRegion) du nombre de résultats à
             // chaque changement de recherche/filtre, pour les lecteurs
             // d'écran — invisible pour les utilisateurs voyants.
-            ResultsAnnouncer(text: l10n.libraryResultsCount(books.valueOrNull?.length ?? 0)),
+            ResultsAnnouncer(
+              text: l10n.libraryResultsCount(books.valueOrNull?.length ?? 0),
+            ),
             Expanded(
               child: books.when(
                 loading: () => const Center(child: CircularProgressIndicator()),

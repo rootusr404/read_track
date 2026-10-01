@@ -21,7 +21,11 @@ void main() {
     });
 
     test('toJson then fromJson round-trips to an equal entry', () {
-      const original = MyListEntry(bookId: 'b01', isFavorite: true, isRead: true);
+      const original = MyListEntry(
+        bookId: 'b01',
+        isFavorite: true,
+        isRead: true,
+      );
 
       final restored = MyListEntry.fromJson(original.toJson());
 

@@ -1,33 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-/// Persistance locale des réglages (thème, langue) dans une Box<String>.
+import 'hive_key_value_store.dart';
+import 'key_value_store.dart';
+
+/// Persistance locale des réglages (thème, langue) dans un KeyValueStore.
 class SettingsStorage {
-  SettingsStorage(this._box);
+  SettingsStorage(this._store);
 
   static const boxName = 'settings';
   static const _themeKey = 'themeMode';
   static const _localeKey = 'locale';
 
-  final Box<String> _box;
+  final KeyValueStore _store;
 
   /// À appeler après `Hive.initFlutter()`.
   static Future<SettingsStorage> open() async {
-    return SettingsStorage(await Hive.openBox<String>(boxName));
+    return SettingsStorage(await HiveKeyValueStore.open(boxName));
   }
 
   ThemeMode readThemeMode() {
-    final raw = _box.get(_themeKey);
+    final raw = _store.get(_themeKey);
     return ThemeMode.values.firstWhere(
       (mode) => mode.name == raw,
       orElse: () => ThemeMode.light,
     );
   }
 
-  Future<void> saveThemeMode(ThemeMode mode) => _box.put(_themeKey, mode.name);
+  Future<void> saveThemeMode(ThemeMode mode) =>
+      _store.put(_themeKey, mode.name);
 
-  Locale readLocale() => Locale(_box.get(_localeKey) ?? 'fr');
+  Locale readLocale() => Locale(_store.get(_localeKey) ?? 'fr');
 
   Future<void> saveLocale(Locale locale) =>
-      _box.put(_localeKey, locale.languageCode);
+      _store.put(_localeKey, locale.languageCode);
 }

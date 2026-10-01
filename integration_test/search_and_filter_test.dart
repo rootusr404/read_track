@@ -21,10 +21,22 @@ import '../test/support/fake_asset_bundle.dart';
 /// filtre de catégorie (même libellé `libraryFilterAll`) : on doit donc
 /// cibler celui de `StatusFilterBar` explicitement pour éviter une
 /// résolution ambiguë du Finder.
-Finder _statusChip(String label) => find.descendant(
-      of: find.byType(StatusFilterBar),
-      matching: find.text(label),
+///
+/// On cible le `ChoiceChip` (toute la zone cliquable) plutôt que le
+/// `Text` qu'il contient : à l'intérieur d'une rangée défilante
+/// horizontalement, le centre géométrique du texte seul peut ne pas
+/// correspondre exactement à sa position de rendu au moment du tap.
+Finder _statusChip(String label) => find.ancestor(
+      of: find.descendant(of: find.byType(StatusFilterBar), matching: find.text(label)),
+      matching: find.byType(ChoiceChip),
     );
+
+Future<void> _tapStatusChip(WidgetTester tester, String label) async {
+  final chip = _statusChip(label);
+  await tester.ensureVisible(chip);
+  await tester.pumpAndSettle();
+  await tester.tap(chip);
+}
 
 /// Parcours complet : rechercher un livre, vérifier le filtre "Favoris" à
 /// vide, marquer un livre comme favori depuis sa fiche détail, puis
@@ -52,8 +64,8 @@ void main() {
 
   testWidgets('search filters the library, and favoriting updates the favorite filter',
       (tester) async {
-    final myListStorage = MyListStorage(await Hive.openBox<String>(MyListStorage.boxName));
-    final settingsStorage = SettingsStorage(await Hive.openBox<String>(SettingsStorage.boxName));
+    final myListStorage = await MyListStorage.open();
+    final settingsStorage = await SettingsStorage.open();
     await settingsStorage.saveLocale(const Locale('en'));
 
     await tester.pumpWidget(
@@ -80,12 +92,12 @@ void main() {
     // n'est favori pour l'instant, la liste doit être vide.
     await tester.tap(find.byIcon(Icons.clear));
     await tester.pump();
-    await tester.tap(_statusChip('Favorites'));
+    await _tapStatusChip(tester, 'Favorites');
     await tester.pump();
     expect(find.text('No books match your search.'), findsOneWidget);
 
     // 3. Retour à "All", ouverture de la fiche de Dune.
-    await tester.tap(_statusChip('All'));
+    await _tapStatusChip(tester, 'All');
     await tester.pump();
     await tester.tap(find.text('Dune'));
     await tester.pumpAndSettle();
@@ -98,7 +110,7 @@ void main() {
     // 5. Retour à la bibliothèque, filtre "Favorites" : Dune y figure.
     await tester.pageBack();
     await tester.pumpAndSettle();
-    await tester.tap(_statusChip('Favorites'));
+    await _tapStatusChip(tester, 'Favorites');
     await tester.pump();
     expect(find.text('Dune'), findsOneWidget);
     expect(find.text('1984'), findsNothing);

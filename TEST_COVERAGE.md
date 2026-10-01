@@ -36,6 +36,17 @@ Ces tests réutilisent `FakeAssetBundle` (`test/support/fake_asset_bundle.dart`)
 
 Ces deux tests utilisent l'app réelle (`ReadTrackApp`, y compris `GoRouter`) plutôt qu'un écran isolé — c'est ce qui les distingue des tests de widgets. `Hive.init()` est appelé manuellement sur un répertoire temporaire (pas `Hive.initFlutter()`), car `path_provider` n'a pas d'implémentation native disponible sous le runner `flutter test` sans device.
 
+### Exécution
+
+Contrairement aux tests unitaires et de widgets, `integration_test/` nécessite un vrai device (desktop, émulateur ou navigateur piloté) — il ne tourne pas en mode headless. Ils sont donc exécutés en local avant chaque merge plutôt qu'automatisés en CI (voir `.github/workflows/ci.yml`) :
+
+```bash
+flutter test integration_test/add_and_track_book_test.dart -d linux
+flutter test integration_test/search_and_filter_test.dart -d linux
+```
+
+Lancer chaque fichier séparément plutôt que le dossier entier : deux instances desktop démarrées à la suite dans la même commande peuvent se gêner mutuellement (port du VM service, fenêtre précédente pas totalement libérée).
+
 ## Pourquoi un `FakeAssetBundle` plutôt que `rootBundle` dans les tests
 
 `BookRepository` prend un `AssetBundle` en paramètre optionnel précisément pour permettre ce genre de test : `test/support/fake_asset_bundle.dart` sert un JSON fourni en mémoire, sans dépendre du vrai fichier `assets/data/books.json` ni du moteur Flutter pour charger un asset. Ça permet aussi de tester le cas d'erreur (JSON malformé) sans avoir à casser le vrai fichier d'assets.

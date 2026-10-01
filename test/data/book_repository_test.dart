@@ -69,7 +69,12 @@ void main() {
       final repository = buildRepository(sampleJson);
       await repository.getAll(); // force le premier chargement / cache
 
-      const newBook = Book(id: 'b03', title: 'New', author: 'Someone', category: 'Cat');
+      const newBook = Book(
+        id: 'b03',
+        title: 'New',
+        author: 'Someone',
+        category: 'Cat',
+      );
       await repository.add(newBook);
 
       final books = await repository.getAll();
@@ -81,9 +86,17 @@ void main() {
       final repository = buildRepository(sampleJson);
       await repository.getAll();
 
-      const duplicate = Book(id: 'b01', title: 'Dup', author: 'X', category: 'Y');
+      const duplicate = Book(
+        id: 'b01',
+        title: 'Dup',
+        author: 'X',
+        category: 'Y',
+      );
 
-      expect(repository.add(duplicate), throwsA(isA<BookRepositoryException>()));
+      expect(
+        repository.add(duplicate),
+        throwsA(isA<BookRepositoryException>()),
+      );
     });
   });
 }

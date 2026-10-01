@@ -5,7 +5,12 @@ import 'package:read_track/models/book.dart';
 import 'package:read_track/models/my_list_entry.dart';
 import 'package:read_track/widgets/book_card.dart';
 
-const _book = Book(id: 'b01', title: '1984', author: 'George Orwell', category: 'Dystopie');
+const _book = Book(
+  id: 'b01',
+  title: '1984',
+  author: 'George Orwell',
+  category: 'Dystopie',
+);
 
 Widget _wrap(Widget child) {
   return MaterialApp(
@@ -25,12 +30,22 @@ void main() {
     expect(find.text('Dystopie'), findsOneWidget);
   });
 
-  testWidgets('shows favorite and read icons only when the entry says so', (tester) async {
-    await tester.pumpWidget(_wrap(BookCard(
-      book: _book,
-      entry: const MyListEntry(bookId: 'b01', isFavorite: true, isRead: true),
-      onTap: () {},
-    )));
+  testWidgets('shows favorite and read icons only when the entry says so', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _wrap(
+        BookCard(
+          book: _book,
+          entry: const MyListEntry(
+            bookId: 'b01',
+            isFavorite: true,
+            isRead: true,
+          ),
+          onTap: () {},
+        ),
+      ),
+    );
 
     expect(find.byIcon(Icons.favorite), findsOneWidget);
     expect(find.byIcon(Icons.check_circle), findsOneWidget);
@@ -45,7 +60,9 @@ void main() {
 
   testWidgets('calls onTap when tapped', (tester) async {
     var tapped = false;
-    await tester.pumpWidget(_wrap(BookCard(book: _book, onTap: () => tapped = true)));
+    await tester.pumpWidget(
+      _wrap(BookCard(book: _book, onTap: () => tapped = true)),
+    );
 
     await tester.tap(find.byType(InkWell));
 
